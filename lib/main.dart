@@ -1,52 +1,80 @@
 import 'package:flutter/material.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(App());
 }
 
-class MyApp extends StatefulWidget {
+class App extends StatefulWidget {
   @override
-  State<MyApp> createState() => _MyAppState();
+  State<App> createState() => _AppState();
 }
 
-class _MyAppState extends State<MyApp> {
-  int counter = 0;
-
-  void onClicked() {
+class _AppState extends State<App> {
+  bool showTitle = true;
+  void toggleTitle() {
     setState(() {
-      counter = counter + 1;
+      showTitle = !showTitle;
     });
   }
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      theme: ThemeData(
+        textTheme: const TextTheme(
+          titleLarge: TextStyle(
+            color: Colors.red,
+          ),
+        ),
+      ),
       home: Scaffold(
         backgroundColor: const Color(0xFFF4EDDB),
         body: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              const Text(
-                'Click Count',
-                style: TextStyle(
-                  fontSize: 35,
-                ),
-              ),
-              Text(
-                '$counter',
-                style: const TextStyle(
-                  fontSize: 35,
-                ),
-              ),
+              showTitle ? const MyLargeTitle() : const Text('nothing..'),
               IconButton(
-                iconSize: 50,
-                onPressed: onClicked,
-                icon: const Icon(Icons.add_box_rounded),
-              ),
+                onPressed: toggleTitle,
+                icon: const Icon(Icons.remove_red_eye),
+              )
             ],
           ),
         ),
+      ),
+    );
+  }
+}
+
+class MyLargeTitle extends StatefulWidget {
+  const MyLargeTitle({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  State<MyLargeTitle> createState() => _MyLargeTitleState();
+}
+
+class _MyLargeTitleState extends State<MyLargeTitle> {
+  @override
+  void initState() {
+    super.initState();
+    print('initState!');
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    print('dispose!');
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Text(
+      'My Large Title',
+      style: TextStyle(
+        fontSize: 35,
+        color: Theme.of(context).textTheme.titleLarge?.color,
       ),
     );
   }
